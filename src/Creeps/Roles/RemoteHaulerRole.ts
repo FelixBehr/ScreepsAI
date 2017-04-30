@@ -35,10 +35,10 @@ export class RemoteHaulerRole extends RemoteRole {
             });
             let canTransfer = this.creep.transfer(needsEnergy, RESOURCE_ENERGY);
             if (canTransfer === ERR_NOT_IN_RANGE) {
-                this.moveBehaviour.moveToLocation(needsEnergy);
+                this.moveBehaviour.moveToLocation(needsEnergy, "#00ff00");
             }
             if (canTransfer === ERR_FULL || ERR_INVALID_TARGET) {
-                this.creep.moveTo(19, 24);
+                this.moveBehaviour.moveToCoordinates(19, 24, "#00ff00");
                 if (this.creep.pos.x === 19 && this.creep.pos.y === 24) {
                     this.creep.drop(RESOURCE_ENERGY);
                 }

@@ -1,20 +1,31 @@
 export class MoveBehaviour {
     private creep: Creep;
-    private fillStyle: string;
 
-    constructor(creep: Creep, fillStyle = "#fff") {
+    constructor(creep: Creep) {
         this.creep = creep;
-        this.fillStyle = fillStyle;
     }
 
-    public moveToLocation(object: any): void {
+    public moveToLocation(object: any, fillStyle = "#fff"): void {
         this.creep.moveTo(object, {
             reusePath: 30,
             visualizePathStyle: {
                 fill: "transparent",
                 lineStyle: "dashed",
                 opacity: .1,
-                stroke: this.fillStyle,
+                stroke: fillStyle,
+                strokeWidth: .15,
+            },
+        });
+    }
+
+    public moveToCoordinates(x: number, y: number, fillStyle = "#fff"): void {
+        this.creep.moveTo(x, y, {
+            reusePath: 30,
+            visualizePathStyle: {
+                fill: "transparent",
+                lineStyle: "dashed",
+                opacity: .1,
+                stroke: fillStyle,
                 strokeWidth: .15,
             },
         });
