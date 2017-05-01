@@ -13,10 +13,13 @@ export class RemoteHaulerRole extends RemoteRole {
                 this.travelBehaviour.travelToRoom(this.creep.memory.room);
                 return;
             }
-            const droppedEnergy = this.creep.pos.findClosestByPath<Resource>(FIND_DROPPED_ENERGY);
-            const canPickup = this.creep.pickup(droppedEnergy);
+            const droppedEnergy = this.creep.room.find<Resource>(FIND_DROPPED_ENERGY);
+            const sortedDroppedEnergy = droppedEnergy.sort((a: Resource, b: Resource) => {
+                return b.amount - a.amount;
+            });
+            const canPickup = this.creep.pickup(sortedDroppedEnergy[0]);
             if (canPickup === ERR_NOT_IN_RANGE) {
-                this.moveBehaviour.moveToLocation(droppedEnergy);
+                this.moveBehaviour.moveToLocation(sortedDroppedEnergy[0]);
             }
         }
         if (this.creep.memory.working === true) {
@@ -25,7 +28,7 @@ export class RemoteHaulerRole extends RemoteRole {
                 return;
             }
             let needsEnergy: Structure = this.creep.pos.findClosestByPath<Structure>(FIND_STRUCTURES, {
-                filter: (structure: any) => {
+                filter: (structure: StructureSpawn|StructureExtension) => {
                     return (
                             structure.structureType === STRUCTURE_SPAWN
                             || structure.structureType === STRUCTURE_EXTENSION
@@ -33,15 +36,17 @@ export class RemoteHaulerRole extends RemoteRole {
                         && structure.energy < structure.energyCapacity;
                 },
             });
+            if (needsEnergy === undefined || needsEnergy === null) {
+                needsEnergy = this.creep.pos.findClosestByPath<Structure>(FIND_STRUCTURES, {
+                    filter: (structure: StructureContainer) => {
+                        return structure.structureType === STRUCTURE_CONTAINER
+                            && structure.store[RESOURCE_ENERGY] < structure.storeCapacity;
+                    },
+                });
+            }
             let canTransfer = this.creep.transfer(needsEnergy, RESOURCE_ENERGY);
             if (canTransfer === ERR_NOT_IN_RANGE) {
-                this.moveBehaviour.moveToLocation(needsEnergy, "#00ff00");
-            }
-            if (canTransfer === ERR_FULL || ERR_INVALID_TARGET) {
-                this.moveBehaviour.moveToCoordinates(19, 24, "#00ff00");
-                if (this.creep.pos.x === 19 && this.creep.pos.y === 24) {
-                    this.creep.drop(RESOURCE_ENERGY);
-                }
+                this.moveBehaviour.moveToLocation(needsEnergy);
             }
         }
     }

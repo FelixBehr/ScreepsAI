@@ -15,11 +15,7 @@ export class BuilderRole extends Role {
             }
         }
         if (this.creep.memory.working === false) {
-            const droppedEnergy = this.creep.pos.findClosestByPath<Resource>(FIND_DROPPED_ENERGY);
-            const canPickup = this.creep.pickup(droppedEnergy);
-            if (canPickup === ERR_NOT_IN_RANGE) {
-                this.moveBehaviour.moveToLocation(droppedEnergy);
-            }
+            this.energyCollectorBehaviour.collectEnergy();
         }
     }
 }

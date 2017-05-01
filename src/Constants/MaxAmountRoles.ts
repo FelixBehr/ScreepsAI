@@ -1,7 +1,9 @@
-export const MAX_HARVESTERS = 2;
-export const MAX_HAULERS = 2;
-export const MAX_BUILDERS = 2;
-export const MAX_UPGRADERS = 5;
-export const MAX_REMOTE_HARVESTER = 2;
-export const MAX_REMOTE_HAULERS = 3;
-export const MAX_REPAIRERS = 1;
+export class MaxAmountRoles {
+    public static readonly Harvester = 2;
+    public static readonly Hauler = 3;
+    public static readonly Builder = 2;
+    public static readonly Upgrader = 5;
+    public static readonly RemoteHarvester = 2;
+    public static readonly RemoteHauler = 3;
+    public static readonly Repairer = 2;
+}

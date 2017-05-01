@@ -7,7 +7,7 @@ export class MoveBehaviour {
 
     public moveToLocation(object: any, fillStyle = "#fff"): void {
         this.creep.moveTo(object, {
-            reusePath: 30,
+            reusePath: 50,
             visualizePathStyle: {
                 fill: "transparent",
                 lineStyle: "dashed",
@@ -20,7 +20,7 @@ export class MoveBehaviour {
 
     public moveToCoordinates(x: number, y: number, fillStyle = "#fff"): void {
         this.creep.moveTo(x, y, {
-            reusePath: 30,
+            reusePath: 50,
             visualizePathStyle: {
                 fill: "transparent",
                 lineStyle: "dashed",
